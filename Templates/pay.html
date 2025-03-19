@@ -4,44 +4,83 @@
 <!-- Ensure Bootstrap and Font Awesome are included in your base template -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0 rounded-3">
-                <div class="card-body p-4">
-                    <h2 class="text-center mb-4"><i class="fas fa-money-bill-wave text-primary"></i> Make a Payment</h2>
+<style>
+    /* Glassmorphism effect */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
 
-                    <form method="post" action="{% url 'stk' %}">
-                        {% csrf_token %}
+    /* Styling the form inputs */
+    .custom-input {
+        border-radius: 25px;
+        padding: 12px;
+        font-size: 16px;
+        transition: 0.3s;
+    }
 
-                        <!-- Phone Number Field with Icon -->
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number:</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                <input type="number" class="form-control" id="phone" name="phone" value="254" placeholder="Enter Phone Number" required>
-                            </div>
-                        </div>
+    .custom-input:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.8);
+    }
 
-                        <!-- Amount Field with Icon -->
-                        <div class="mb-3">
-                            <label for="amount" class="form-label">Amount:</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-coins"></i></span>
-                                <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" required>
-                            </div>
-                        </div>
+    /* Button with gradient effect */
+    .custom-btn {
+        background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        border: none;
+        border-radius: 30px;
+        padding: 12px;
+        font-size: 18px;
+        color: white;
+        transition: 0.3s;
+    }
 
-                        <!-- Submit Button with Icon -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <i class="fas fa-paper-plane"></i> Submit Payment
-                            </button>
-                        </div>
-                    </form>
+    .custom-btn:hover {
+        background: linear-gradient(135deg, #388E3C, #1B5E20);
+        transform: scale(1.05);
+    }
 
+    /* Centering elements */
+    .container-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+</style>
+
+<div class="container container-center">
+    <div class="col-md-5">
+        <div class="glass-card text-center">
+            <h2 class="mb-4 text-white"><i class="fas fa-wallet"></i> Secure Payment</h2>
+
+            <form method="post" action="{% url 'stk' %}">
+                {% csrf_token %}
+
+                <!-- Phone Number Field -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-success text-white"><i class="fas fa-phone"></i></span>
+                        <input type="number" class="form-control custom-input" id="phone" name="phone" value="254" placeholder="Enter Phone Number" required>
+                    </div>
                 </div>
-            </div>
+
+                <!-- Amount Field -->
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-success text-white"><i class="fas fa-coins"></i></span>
+<input type="text" id="amount" name="amount" value="{{ request.GET.amount }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn custom-btn w-100">
+                    <i class="fas fa-lock"></i> Pay Securely
+                </button>
+            </form>
         </div>
     </div>
 </div>

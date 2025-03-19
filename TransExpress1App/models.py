@@ -1,11 +1,11 @@
 from django.db import models
 
 # Create your models here.
-class Quote(models.Model):
+class Quote1(models.Model):
     departure = models.CharField(max_length=255)
     delivery = models.CharField(max_length=20)
     weight = models.CharField(max_length=255)
-    dimension = models.IntegerField(max_length=25)
+    dimensions = models.CharField(max_length=25)
     name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.IntegerField(max_length=20)

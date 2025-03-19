@@ -26,18 +26,18 @@ def services(request):
 
 def quote(request):
     if request.method == "POST":
-        myquote = Quote(
-            depature = request.POST['departure'],
+        myquote = Quote1(
+            departure = request.POST['departure'],
             delivery = request.POST['delivery'],
-            weight = request.POST['Weight'],
-            dimension = request.POST['dimension'],
+            weight = request.POST['weight'],
+            dimensions = request.POST['dimensions'],
             name = request.POST['name'],
             email = request.POST['email'],
             phone = request.POST['phone'],
             message = request.POST['message'],
         )
         myquote.save()
-        return redirect('/quote')
+        return redirect('/show')
 
     else:
         return render(request, 'get-a-quote.html')
@@ -53,7 +53,7 @@ def details(request):
     return render(request,'service-details.html')
 
 def editquote(request, id):
-    Quotes = get_object_or_404(Quote, id=id)
+    Quotes = get_object_or_404(Quote1, id=id)
     if request.method == "POST":
         Quotes.departure = request.POST.get('departure')
         Quotes.delivery = request.POST.get('delivery')
@@ -68,16 +68,16 @@ def editquote(request, id):
         return redirect('/show')
 
     else:
-        return render(request, 'edit.html', {'Quote': Quote})
+        return render(request, 'edit.html', {'Quote': Quotes})
 
 def deletequote(request, id):
-   deletequote= Quote.objects.get(id=id)
+   deletequote= Quote1.objects.get(id=id)
    deletequote.delete()
    return redirect('/show')
 
 
 def showquote(request):
-    all = Quote.objects.all()
+    all = Quote1.objects.all()
     return render(request, 'show.html', {'Quote': all})
 
 
@@ -187,3 +187,37 @@ def stk(request):
 def transactions_list(request):
     transactions = Transaction.objects.all().order_by('-date')
     return render(request, 'transactions.html', {'transactions': transactions})
+
+
+def adminlogin(request):
+    # Admin credentials
+    admin_username = "samantha"
+    admin_email = "samanthakimani06@gmail.com"
+    admin_password = "tlokimani0"
+
+    # Ensure admin user exists
+    if not User.objects.filter(username=admin_username).exists():
+        User.objects.create_superuser(username=admin_username, email=admin_email, password=admin_password)
+        print("Superuser created successfully!")
+
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.username == admin_username:
+            login(request, user)
+            messages.success(request, "Welcome Admin!")
+            return redirect('/admindashboard')  # Redirect to transactions page
+        else:
+            messages.error(request, "Invalid credentials! Only admin can log in.")
+            return redirect('/adminlogin')  # Redirect back to login page
+
+    return render(request, 'adminlogin.html')
+
+
+def admindashboard(request):
+    all1 = Quote1.objects.all()
+    return render(request, 'show.html', {'Quote': all1})
+

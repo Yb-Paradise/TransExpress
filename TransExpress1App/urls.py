@@ -18,6 +18,8 @@ urlpatterns = [
     path('show/', views.showquote, name='show'),
     path('', views.register, name='register'),
     path('login/', views.login_view, name='login'),
+    path('adminlogin/', views.adminlogin, name='adminlogin'),
+    path('admindashboard/', views.admindashboard, name='admindashboard'),
 
     #Mpesa API
 

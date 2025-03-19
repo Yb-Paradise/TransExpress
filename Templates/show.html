@@ -5,34 +5,47 @@
 {% block content %}
     <h1 class="text-center">All Deliveries</h1>
 
-    <div class="d-flex gap-5 flex-wrap container">
-    {% for x in quote %}
-        <div class="card w-50 p-2 shadow-lg">
-        <p class="fw-bolder text-primary">{{ x.departure }}</p>
-        <p><b>Delivery:</b> {{ x.delivery }}</p>
-        <p><b>Weight:</b>{{ x.weight }}</p>
-        <p><b>Dimensions:</b>{{ x.dimensions }}</p>
-        <p><b>Name:</b>{{ x.name }}</p>
-        <p><b>Email:</b>{{ x.email }}</p>
-        <p><b>Phone:</b>{{ x.phone }}</p>
-        <p><b>Message:</b>{{ x.message }}</p>
-        <p>
-            <a href="{% url 'edit-quote-details' x.id %}" class="text-warning me-4">
-                <i class="bi bi-pencil"></i>Edit
-            </a>
-            <a href="/deletequote/{{ x.id }}" class="text-danger">
-                <i class="bi bi-trash"></i>Delete
-            </a>
+    <!-- Display date separately -->
+    <p class="text-center text-secondary">
+        <b>Date:</b> {% now "F j, Y, g:i a" %}
+    </p>
 
-               <a href="{% url 'pay' %}" class="text-success">
-                    <i class="bi bi-credit-card"></i>Pay
-                </a>
-        </p>
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>Departure</th>
+                    <th>Delivery</th>
+                    <th>Weight</th>
+                    <th>Dimensions</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in Quote %}
+                <tr>
+                    <td class="fw-bold text-primary">{{ x.departure }}</td>
+                    <td>{{ x.delivery }}</td>
+                    <td>{{ x.weight }}</td>
+                    <td>{{ x.dimensions }}</td>
+                    <td>{{ x.name }}</td>
+                    <td>{{ x.email }}</td>
+                    <td>{{ x.phone }}</td>
+                    <td>{{ x.message }}</td>
+                    <td>
+                        <a href="/editquote/{{ x.id }}" class="text-warning me-2">
+                            <i class="bi bi-pencil"></i>Edit
+                        </a>
 
-        </div>
 
-    {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
-
 {% endblock %}
